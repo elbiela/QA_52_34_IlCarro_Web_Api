@@ -9,16 +9,14 @@ import pages.LoginPage;
 
 import java.util.Random;
 
-public class LoginTests extends AppManager
-{
+public class LoginTests extends AppManager {
     @BeforeMethod
-    public void goToLoginPage()
-    {
+    public void goToLoginPage() {
         new HomePage(getDriver()).clickBtnLogin();
     }
+
     @Test
-    public void registrationPositiveTest()
-    {
+    public void registrationPositiveTest() {
         UserLombok user = UserLombok.builder()
                 .username("test567@test.com")
                 .password("Test567!")

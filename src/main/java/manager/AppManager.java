@@ -5,25 +5,24 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-public class AppManager
-{
+public class AppManager {
     private WebDriver driver;
-    protected WebDriver getDriver()
-    {
+
+    protected WebDriver getDriver() {
         return driver;
-    };
+    }
+
+    ;
 
     @BeforeMethod
-    public void setup()
-    {
+    public void setup() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
     }
 
     @AfterMethod(enabled = false)
-    public void tearDown()
-    {
-        if(driver != null)
+    public void tearDown() {
+        if (driver != null)
             driver.quit();
     }
 }
