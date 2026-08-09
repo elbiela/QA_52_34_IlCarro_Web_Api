@@ -16,7 +16,7 @@ public class LoginTests extends AppManager {
     }
 
     @Test
-    public void registrationPositiveTest() {
+    public void loginPositiveTest() {
         UserLombok user = UserLombok.builder()
                 .username("test567@test.com")
                 .password("Test567!")
