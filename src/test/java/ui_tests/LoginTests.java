@@ -28,9 +28,9 @@ public class LoginTests extends AppManager {
                 .username("test567@test.com")
                 .password("Test567!")
                 .build();
-        loginPage = new LoginPage(getDriver());
         loginPage.typeLoginForm(user);
         loginPage.clickBtnYalla();
+        Assert.assertTrue(loginPage.isPopUpSuccessLoginDisplayed());
     }
 
     @Test
@@ -40,9 +40,9 @@ public class LoginTests extends AppManager {
         loginPage.clickBtnYalla();
 
         Assert.assertTrue(loginPage
-                .validateTextAfterClickOnLoginAndPassword());
+                .isEmailAndPasswordRequiredMessagesDisplayed());
 
-        Assert.assertTrue(loginPage.isBtnYallaEnabled());
+        Assert.assertTrue(loginPage.isBtnYallaDisabled());
     }
 
     @Test
@@ -52,9 +52,9 @@ public class LoginTests extends AppManager {
         loginPage.typePassword(user);
 
         Assert.assertTrue(loginPage
-                .validateTextAfterFillingOnlyPasswordField("Email is required"));
+                .isEmailRequiredMessageDisplayed("Email is required"));
 
-        Assert.assertTrue(loginPage.isBtnYallaEnabled());
+        Assert.assertTrue(loginPage.isBtnYallaDisabled());
     }
 
 }

@@ -23,6 +23,9 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//button[@type='submit']")
     WebElement btnYalla;
 
+    @FindBy(xpath = "//*[text()='Logged in']")
+    WebElement popUpSuccessLogin;
+
     @FindBy(xpath = "//*[text()=' Email is required ']")
     WebElement emailIsRequired;
 
@@ -50,16 +53,20 @@ public class LoginPage extends BasePage {
         inputPassword.click();
     }
 
-    public boolean validateTextAfterClickOnLoginAndPassword() {
+    public boolean isPopUpSuccessLoginDisplayed() {
+        return isElementDisplayed(popUpSuccessLogin);
+    }
+
+    public boolean isEmailAndPasswordRequiredMessagesDisplayed() {
         return isTextInElementPresent(emailIsRequired, "Email is required")
                 && isTextInElementPresent(passwordIsRequired, "Password is required");
     }
 
-    public boolean validateTextAfterFillingOnlyPasswordField(String text) {
+    public boolean isEmailRequiredMessageDisplayed(String text) {
         return isTextInElementPresent(emailIsRequired, "Email is required");
     }
 
-    public boolean isBtnYallaEnabled() {
+    public boolean isBtnYallaDisabled() {
         return !btnYalla.isEnabled();
     }
 

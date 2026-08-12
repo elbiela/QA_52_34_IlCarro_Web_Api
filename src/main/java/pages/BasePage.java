@@ -26,6 +26,10 @@ public abstract class BasePage {
         return false;
     }
 
+    public boolean isElementDisplayed(WebElement element) {
+        return element.isDisplayed();
+    }
+
     public void pause(int time) {
         try {
             Thread.sleep(time);
