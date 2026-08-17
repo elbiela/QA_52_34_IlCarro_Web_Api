@@ -6,10 +6,13 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
+import static utils.PropertiesReader.*;
+
+
 public class HomePage extends BasePage {
     public HomePage(WebDriver driver) {
         setDriver(driver);
-        driver.get("https://ilcarro.web.app/search");
+        driver.get(getProperty("base.properties", "baseUrl"));
         PageFactory.initElements(new AjaxElementLocatorFactory
                 (driver, 10), this);
     }
@@ -17,7 +20,14 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[text()=' Log in ']")
     WebElement btnLogin;
 
+    @FindBy(xpath = "//a[text()=' Sign up ']")
+    WebElement btnSignup;
+
     public void clickBtnLogin() {
         btnLogin.click();
+    }
+
+    public void clickBtnSignup() {
+        btnSignup.click();
     }
 }

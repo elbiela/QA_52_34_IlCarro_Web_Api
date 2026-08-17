@@ -12,7 +12,6 @@ public class AppManager {
         return driver;
     }
 
-    ;
 
     @BeforeMethod
     public void setup() {
@@ -20,7 +19,7 @@ public class AppManager {
         driver.manage().window().maximize();
     }
 
-    @AfterMethod(enabled = false)
+    @AfterMethod()
     public void tearDown() {
         if (driver != null)
             driver.quit();

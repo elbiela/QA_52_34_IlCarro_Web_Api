@@ -1,20 +1,21 @@
 package ui_tests;
 
-import dto.User;
+import data_providers.UserDataProvider;
 import dto.User;
 import manager.AppManager;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.LoginPage;
 
-import java.util.Random;
-
-import static utils.UserFactory.positiveLoginUser;
+import static utils.PropertiesReader.*;
 
 public class LoginTests extends AppManager {
     LoginPage loginPage;
+    SoftAssert softAssert = new SoftAssert();
+    User user;
 
     @BeforeMethod
     public void goToLoginPage() {
@@ -24,37 +25,118 @@ public class LoginTests extends AppManager {
 
     @Test
     public void loginPositiveTest() {
-        User user = User.builder()
-                .username("test567@test.com")
-                .password("Test567!")
+        user = User.builder()
+                .username(getProperty("base.properties", "email"))
+                .password(getProperty("base.properties", "password"))
                 .build();
         loginPage.typeLoginForm(user);
         loginPage.clickBtnYalla();
+
         Assert.assertTrue(loginPage.isPopUpSuccessLoginDisplayed());
     }
 
     @Test
-    public void loginNegativeEmptyAllFieldsTest() {
+    public void loginNegativeEmptyAllFieldsWithClickTest() {
         loginPage.clickOnFieldLogin();
         loginPage.clickOnFieldPassword();
         loginPage.clickBtnYalla();
 
-        Assert.assertTrue(loginPage
-                .isEmailAndPasswordRequiredMessagesDisplayed());
-
-        Assert.assertTrue(loginPage.isBtnYallaDisabled());
+        softAssert.assertTrue(loginPage
+                        .isEmailAndPasswordRequiredMessagesDisplayed(),
+                "validate isEmailAndPasswordRequiredMessagesDisplayed()");
+        softAssert.assertFalse(loginPage
+                        .isBtnYallaEnabled(),
+                "validate btnYalla is Disabled");
+        softAssert.assertAll();
     }
 
     @Test
-    public void loginNegativeEmptyUsernameTest() {
-        User user = positiveLoginUser();
-        loginPage.clickOnFieldLogin();
-        loginPage.typePassword(user);
+    public void loginNegativeEmptyAllFieldsWOClickInFieldsTest() {
+        loginPage.clickBtnYalla();
 
-        Assert.assertTrue(loginPage
-                .isEmailRequiredMessageDisplayed("Email is required"));
+        Assert.assertFalse(loginPage.isBtnYallaEnabled());
+    }
 
-        Assert.assertTrue(loginPage.isBtnYallaDisabled());
+    @Test
+    public void loginNegativeEmptyAllFieldsWithClickTest2() {
+        user = User.builder()
+                .username("")
+                .password("")
+                .build();
+        loginPage.typeLoginForm(user);
+        loginPage.clickBtnYalla();
+
+        softAssert.assertFalse(loginPage.isBtnYallaEnabled(),
+                "validate isBtnYallaEnabled()");
+        softAssert.assertTrue(loginPage
+                        .isTextInErrorPresent("Email is required"),
+                "validate message: Email is required");
+        softAssert.assertTrue(loginPage
+                        .isTextInErrorPresent("Password is required"),
+                "validate message: Password is required");
+        softAssert.assertAll();
+
+    }
+
+    @Test
+    public void loginNegativeEmptyUsernameFieldTest() {
+        user = User.builder()
+                .username("")
+                .password(getProperty("base.properties", "password"))
+                .build();
+        loginPage.typeLoginForm(user);
+        loginPage.clickBtnYalla();
+
+        softAssert.assertFalse(loginPage
+                        .isBtnYallaEnabled(),
+                "validate btnYalla is Disabled");
+        softAssert.assertTrue(loginPage
+                        .isTextInErrorPresent("Email is required"),
+                "validate message: Email is required");
+        softAssert.assertAll();
+
+
+    }
+
+    @Test
+    public void loginNegativeEmptyPasswordFieldTest() {
+        user = User.builder()
+                .username(getProperty("base.properties", "email"))
+                .password("")
+                .build();
+        loginPage.typeLoginForm(user);
+        loginPage.clickBtnYalla();
+
+        softAssert.assertFalse(loginPage
+                .isBtnYallaEnabled(), "validate btnYalla is Disabled");
+        softAssert.assertTrue(loginPage
+                .isTextInErrorPresent("Password is required"), "validate message: Password is required");
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void loginNegativeWrongEmailTest() {
+        user = User.builder()
+                .username(getProperty("base.properties", "wrongEmail"))
+                .password(getProperty("base.properties", "password"))
+                .build();
+        loginPage.typeLoginForm(user);
+        loginPage.clickBtnYalla();
+
+        Assert.assertTrue(loginPage.isPopUpLoginFailedDisplayed());
+
+    }
+
+    @Test
+    public void loginNegativeWrongPasswordTest() {
+        user = User.builder()
+                .username(getProperty("base.properties", "username"))
+                .password(getProperty("base.properties", "wrongPassword"))
+                .build();
+        loginPage.typeLoginForm(user);
+        loginPage.clickBtnYalla();
+
+        Assert.assertTrue(loginPage.isPopUpLoginFailedDisplayed());
     }
 
 }
