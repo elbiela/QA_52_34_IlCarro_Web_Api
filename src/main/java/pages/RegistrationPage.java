@@ -1,8 +1,10 @@
 package pages;
 
 import dto.User;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
@@ -37,9 +39,10 @@ public class RegistrationPage extends BasePage {
     @FindBy(xpath = "//*[contains(text(),'Password must contain')]")
     WebElement passwordMustContain;
 
-    public boolean isPopUpRegisteredDisplayed() {
-        return isElementDisplayed(popUpRegistered);
-    }
+    @FindBy(xpath = "//label[@for='terms-of-use']")
+    WebElement checkBoxLabel;
+
+
 
     public boolean isBtnYallaEnabled() {
         return btnYalla.isEnabled();
@@ -58,5 +61,18 @@ public class RegistrationPage extends BasePage {
 
     public void clickBtnYalla() {
         btnYalla.click();
+    }
+
+    public void clickCheckboxTermsOfUse() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", checkBox);
+    }
+
+    public void clickCheckboxWithActions(){
+        int x = checkBoxLabel.getSize().getWidth();
+        int y = checkBoxLabel.getSize().getHeight();
+        System.out.println("x = " + x + " y = " + y);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(checkBoxLabel,-x/10*3,-y/4).click().perform();
     }
 }
