@@ -1,7 +1,6 @@
 package pages;
 
 import dto.User;
-import dto.User;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -35,6 +34,9 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//*[text()=' Password is required ']")
     WebElement passwordIsRequired;
 
+    @FindBy(xpath = "//button[@type='button']")
+    WebElement btnLoginSuccessOk;
+
     public void typeLoginForm(User user) {
         inputEmail.sendKeys(user.getUsername());
         inputPassword.sendKeys(user.getPassword());
@@ -42,6 +44,10 @@ public class LoginPage extends BasePage {
 
     public void clickBtnYalla() {
         btnYalla.click();
+    }
+
+    public void clickWaitBtnLoginSuccess() {
+        clickWait(btnLoginSuccessOk);
     }
 
     public void clickOnFieldLogin() {

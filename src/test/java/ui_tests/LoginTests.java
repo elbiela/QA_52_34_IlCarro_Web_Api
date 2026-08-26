@@ -1,6 +1,5 @@
 package ui_tests;
 
-import data_providers.UserDataProvider;
 import dto.User;
 import manager.AppManager;
 import org.testng.Assert;
@@ -19,6 +18,7 @@ public class LoginTests extends AppManager {
 
     @BeforeMethod
     public void goToLoginPage() {
+        logger.info("Start login test");
         new HomePage(getDriver()).clickBtnLogin();
         loginPage = new LoginPage(getDriver());
     }

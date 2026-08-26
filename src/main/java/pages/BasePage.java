@@ -28,8 +28,6 @@ public abstract class BasePage {
                     .until(ExpectedConditions
                             .textToBePresentInElement(element, text));
         } catch (RuntimeException e) {
-//            e.printStackTrace();
-//            System.out.println("created exeption");
             logger.error("create exception", e);
         }
         return false;
@@ -56,4 +54,11 @@ public abstract class BasePage {
             throw new RuntimeException(e);
         }
     }
+
+    public void clickWait(WebElement element) {
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(element))
+                .click();
+    }
+
 }

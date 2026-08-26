@@ -1,6 +1,5 @@
 package manager;
 
-import net.bytebuddy.agent.builder.LambdaFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
@@ -25,7 +24,7 @@ public class AppManager {
         logger.info("Start testing with method: " + method.getName());
     }
 
-    @AfterMethod()
+    @AfterMethod(enabled = false)
     public void tearDown() {
         if (driver != null)
             driver.quit();
