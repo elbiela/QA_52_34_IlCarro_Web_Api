@@ -10,14 +10,14 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Car {
-    private String location;
+    private String serialNumber;
     private String manufacture;
     private String model;
     private String year;
     private Fuel fuel;
-    private String seats;
+    private Integer seats;
     private String carClass;
-    private String registrationNumber;
-    private String price;
+    private Double pricePerDay;
     private String about;
+    private String city;
 }

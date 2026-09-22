@@ -1,6 +1,8 @@
 package pages;
 
 import dto.Car;
+import enums.Fuel;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,6 +10,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.Select;
+
+import java.io.File;
 
 public class LetTheCarWorkPage extends BasePage {
     public LetTheCarWorkPage(WebDriver driver) {
@@ -38,23 +42,49 @@ public class LetTheCarWorkPage extends BasePage {
     @FindBy(id = "photos")
     WebElement inputPhotos;
 
+    @FindBy(xpath = "//div[text()=' Wrong year ']")
+    WebElement wrongYear;
+
     @FindBy(xpath = "//button[@type='submit']")
     WebElement btnSubmit;
 
-    public void fillCarFormWOPhoto(Car car) {
-        inputLocation.sendKeys(car.getLocation());
+    public void fillAddNewCarForm(Car car) {
+        inputLocation.sendKeys(car.getCity());
         inputManufacture.sendKeys(car.getManufacture());
         inputModel.sendKeys(car.getModel());
         inputYear.sendKeys(car.getYear());
-
-        new Select(selectFuel)
-                .selectByVisibleText(car.getFuel().getValue());
-
-        inputSeats.sendKeys(car.getSeats());
+        chooseFuel(car.getFuel());
+        inputSeats.sendKeys(Integer.toString(car.getSeats()));
         inputCarClass.sendKeys(car.getCarClass());
-        inputSerialNumber.sendKeys(car.getRegistrationNumber());
-        inputPrice.sendKeys(car.getPrice());
+        inputSerialNumber.sendKeys(car.getSerialNumber());
+        inputPrice.sendKeys(Double.toString(car.getPricePerDay()));
         inputAbout.sendKeys(car.getAbout());
+    }
+
+    public void fillAddNewCarBlankForm() {
+        inputLocation.sendKeys("");
+        inputManufacture.sendKeys("");
+        inputModel.sendKeys("");
+        inputYear.sendKeys("");
+
+        selectFuel.click();
+        inputSeats.click();
+
+        inputCarClass.sendKeys("");
+        inputSerialNumber.sendKeys("");
+        inputPrice.click();
+
+        inputAbout.sendKeys("");
+    }
+
+    public void downloadImage(String fileName) {
+        inputPhotos.sendKeys(new File("src/test/resources/"
+                +fileName).getAbsolutePath());
+    }
+
+    public void chooseFuel(Fuel fuel) {
+        selectFuel.click();
+        driver.findElement(By.xpath(fuel.getLocator())).click();
     }
 
     public void clickBtnSubmitWithJS() {

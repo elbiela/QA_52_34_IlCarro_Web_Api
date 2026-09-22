@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.LoginPage;
+import utils.RetryAnalyzer;
 
 import static utils.PropertiesReader.*;
 
@@ -78,7 +79,7 @@ public class LoginTests extends AppManager {
 
     }
 
-    @Test
+    @Test(retryAnalyzer = RetryAnalyzer.class)
     public void loginNegativeEmptyUsernameFieldTest() {
         user = User.builder()
                 .username("")

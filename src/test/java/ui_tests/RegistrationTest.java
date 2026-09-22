@@ -7,13 +7,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.PopUpPage;
 import pages.RegistrationPage;
+import utils.TestNGListener;
 
 import static utils.UserFactory.*;
+@Listeners(TestNGListener.class)
 
 public class RegistrationTest extends AppManager {
     RegistrationPage registrationPage;

@@ -1,19 +1,21 @@
 package enums;
 
 public enum Fuel {
-    DIESEL("Diesel"),
-    PETROL("Petrol"),
-    HYBRID("Hybrid"),
-    ELECTRIC("Electric"),
-    GAS("Gas");
+    DIESEL("//option[@value='Diesel']"),
+    PETROL("//option[@value='Petrol']"),
+    HYBRID("//option[@value='Hybrid']"),
+    ELECTRIC("//option[@value='Electric']"),
+    GAS("//option[@value='Gas']");
 
-    private final String value;
+    private String locator;
+
+
 
     Fuel(String value) {
-        this.value = value;
+        this.locator = value;
     }
 
-    public String getValue() {
-        return value;
+    public String getLocator() {
+        return locator;
     }
 }

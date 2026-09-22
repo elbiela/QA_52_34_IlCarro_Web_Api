@@ -2,23 +2,41 @@ package utils;
 
 import dto.Car;
 import enums.Fuel;
+import net.datafaker.Faker;
+
+import java.time.LocalDate;
 
 public class CarFactory {
-    static Car car;
+    static Faker faker = new Faker();
 
     public static Car positiveCar(){
-        car = Car.builder()
-                .location("Rehovot")
-                .manufacture("Toyota")
-                .model("Corolla")
-                .year("2020")
-                .fuel(Fuel.HYBRID)
-                .seats("5")
-                .carClass("Sedan")
-                .registrationNumber("12345678")
-                .price("50")
-                .about("Good car")
+        return Car.builder()
+                .serialNumber(faker.vehicle().licensePlate())
+                .city("Rehovot")
+                .manufacture(faker.vehicle().manufacturer())
+                .model(faker.vehicle().model())
+                .year(Integer.toString(faker.number().numberBetween(0,
+                        LocalDate.now().getYear())))
+                .fuel(faker.options().option(Fuel.values()))
+                .seats(faker.number().numberBetween(2, 20))
+                .carClass(faker.vehicle().carType())
+                .pricePerDay(faker.number()
+                        .randomDouble(2,0,1000))
+                .about(faker.text().text(0,500))
                 .build();
-        return car;
+    }
+
+    public static Car negativeBlankAllFieldsCar(){
+        return Car.builder()
+                .serialNumber("")
+                .city("")
+                .manufacture("")
+                .model("")
+                .year("")
+                .seats(null)
+                .carClass("")
+                .pricePerDay(null)
+                .about("")
+                .build();
     }
 }
