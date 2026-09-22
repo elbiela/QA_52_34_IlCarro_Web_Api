@@ -1,5 +1,8 @@
 package pages;
 
+import enums.HeaderMenu;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,6 +36,15 @@ public abstract class BasePage {
         return false;
     }
 
+    public boolean isUrlContainsText(String text) {
+        try {
+            return new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions.urlContains(text));
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
     public boolean isTextInErrorPresent(String text) {
         if (listErrors == null || listErrors.isEmpty())
             return false;
@@ -59,6 +71,35 @@ public abstract class BasePage {
         new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.elementToBeClickable(element))
                 .click();
+    }
+
+    public <T extends BasePage> T clickHeaderButtons(HeaderMenu item){
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(item.getLocator())));
+        switch (item) {
+            case LOGO -> {
+                return (T) new HomePage(driver);
+            }
+            case SEARCH -> {
+                return (T) new HomePage(driver);
+            }
+            case LOGOUT -> {
+                return (T) new HomePage(driver);
+            }
+            case LET_THE_CAR_WORK ->  {
+                return (T) new LetTheCarWorkPage(driver);
+            }
+            case TERMS_OF_USE ->  {
+                return (T) new TermsOfUsePage(driver);
+            }
+            case SIGN_UP -> {
+                return (T) new RegistrationPage(driver);
+            }
+            case LOGIN -> {
+                return (T) new LoginPage(driver);
+            }
+            default -> throw new IllegalArgumentException("Wrong item");
+        }
     }
 
 }
