@@ -131,7 +131,7 @@ public class LoginTests extends AppManager {
     @Test
     public void loginNegativeWrongPasswordTest() {
         user = User.builder()
-                .username(getProperty("base.properties", "username"))
+                .username(getProperty("base.properties", "email"))
                 .password(getProperty("base.properties", "wrongPassword"))
                 .build();
         loginPage.typeLoginForm(user);
